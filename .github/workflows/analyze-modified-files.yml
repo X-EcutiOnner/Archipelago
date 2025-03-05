@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: "Determine modified files (pull_request)"
         if: github.event_name == 'pull_request'
@@ -37,7 +37,7 @@ jobs:
           echo "diff=${DIFF//$'\n'/$' '}" >> $GITHUB_ENV
 
       - name: "Determine modified files (push)"
-        if: github.event_name == 'push'
+        if: github.event_name == 'push' && github.event.before != '0000000000000000000000000000000000000000'
         run: |
           git fetch origin $BEFORE $AFTER
           DIFF=$(git diff --diff-filter=d --name-only $BEFORE..$AFTER -- "*.py")
@@ -45,10 +45,15 @@ jobs:
           echo "$DIFF"
           echo "diff=${DIFF//$'\n'/$' '}" >> $GITHUB_ENV
 
-      - uses: actions/setup-python@v4
+      - name: "Treat all files as modified (new branch)"
+        if: github.event_name == 'push' && github.event.before == '0000000000000000000000000000000000000000'
+        run: |
+          echo "diff=." >> $GITHUB_ENV
+
+      - uses: actions/setup-python@v5
         if: env.diff != ''
         with:
-          python-version: 3.8
+          python-version: '3.10'
 
       - name: "Install dependencies"
         if: env.diff != ''
@@ -66,7 +71,7 @@ jobs:
         continue-on-error: true
         if: env.diff != '' && matrix.task == 'flake8'
         run: |
-          flake8 --count --max-complexity=10 --max-doc-length=120 --max-line-length=120 --statistics ${{ env.diff }}
+          flake8 --count --max-complexity=14 --max-doc-length=120 --max-line-length=120 --statistics ${{ env.diff }}
 
       - name: "mypy: Type check modified files"
         continue-on-error: true

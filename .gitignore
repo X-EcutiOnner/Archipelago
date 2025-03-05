@@ -9,12 +9,14 @@
 *.apmc
 *.apz5
 *.aptloz
+*.apemerald
 *.pyc
 *.pyd
 *.sfc
 *.z64
 *.n64
 *.nes
+*.smc
 *.sms
 *.gb
 *.gbc
@@ -27,15 +29,21 @@
 *.archipelago
 *.apsave
 *.BIN
+*.puml
 
+setups
 build
 bundle/components.wxs
 dist
+/prof/
 README.html
 .vs/
 EnemizerCLI/
 /Players/
 /SNI/
+/sni-*/
+/appimagetool*
+/host.yaml
 /options.yaml
 /config.yaml
 /logs/
@@ -54,6 +62,7 @@ Output Logs/
 /installdelete.iss
 /data/user.kv
 /datapackage
+/custom_worlds
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -137,10 +146,11 @@ ipython_config.py
 .venv*
 env/
 venv/
+/venv*/
 ENV/
 env.bak/
 venv.bak/
-.code-workspace
+*.code-workspace
 shell.nix
 
 # Spyder project settings
@@ -167,6 +177,11 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+# Cython intermediates
+_speedups.c
+_speedups.cpp
+_speedups.html
+
 # minecraft server stuff
 jdk*/
 minecraft*/
@@ -175,6 +190,9 @@ minecraft_versions.json
 
 # pyenv
 .python-version
+
+#undertale stuff
+/Undertale/
 
 # OS General Files
 .DS_Store
